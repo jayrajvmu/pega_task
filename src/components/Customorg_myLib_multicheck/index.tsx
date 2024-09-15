@@ -1,5 +1,4 @@
 import {
-  FieldValueList,
   withConfiguration,
 } from '@pega/cosmos-react-core';
 
@@ -10,8 +9,7 @@ import { useState } from 'react';
 
 // Interface for props
 interface CustomorgMyLibMulticheckProps extends PConnFieldProps {
-  formatter: string;
-  variant?: any;
+
 }
 
 interface StateProps {
@@ -24,18 +22,20 @@ function CustomorgMyLibMulticheck(props: CustomorgMyLibMulticheckProps) {
     getPConnect,
     value = [], // Multi-checkbox values
     disabled = false,
-    displayMode,
     readOnly = false,
     required = false,
-    label,
-    hideLabel = false,
     testId,
-    variant = 'inline',
   } = props;
 
   const [isValid, setIsValid] = useState(false); // To track validation state
-  const [touched, setTouched] = useState(false); // To track if field was touched
+  const validateField = (selectedValues: string[]) => {
+    if (selectedValues.length === 0) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
 
+    }
+  };
   const pConn = getPConnect();
   const actions = pConn.getActionsApi();
   const stateProps = pConn.getStateProps() as StateProps;
@@ -48,7 +48,6 @@ function CustomorgMyLibMulticheck(props: CustomorgMyLibMulticheckProps) {
     const { checked, value: checkboxValue } = event.target;
     let updatedValue = [...value];
 
-    
 
     if (checked) {
       updatedValue.push(checkboxValue);
@@ -63,34 +62,20 @@ function CustomorgMyLibMulticheck(props: CustomorgMyLibMulticheckProps) {
   };
 
   // Validate the field (required check)
-  const validateField = (selectedValues: string[]) => {
 
-    console.log(isValid);
-    console.log(selectedValues.length);
-
-    
-
-
-    if (selectedValues.length === 0) {
-      setIsValid(false);
-    } else {
-      setIsValid(true);
-
-    }
-  };
 
   // Handle on blur (when the user interacts with the field)
   const handleOnBlur = () => {
-    setTouched(true); // Set the field as touched
     validateField(value); // Validate on blur
   };
+ 
 
   return (
     <StyledCustomorgMyLibMulticheckWrapper>
 
-      <div className="checkbox-container" onBlur={handleOnBlur}>
+      <div className="container-title">Scheduled Day(s)</div>
 
-       
+      <div className="checkbox-container" onBlur={handleOnBlur}>
         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((day) => (
           <label
             key={day}

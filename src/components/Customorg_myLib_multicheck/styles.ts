@@ -2,7 +2,13 @@ import styled from 'styled-components';
 
 // Styles for the multi-checkbox component
 const StyledCustomorgMyLibMulticheckWrapper = styled.div`
-  .checkbox-container {
+  
+.container-title{
+    font-weight: bold;
+    margin-bottom: 5px;
+
+}
+.checkbox-container {
     display: flex;
   }
 
